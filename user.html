@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>نظام الحضور والانصراف للبرامج التأهيلية</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.3/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-gray-100 flex justify-center items-center h-screen">
+  <div class="container mx-auto">
+    <div class="flex justify-center mb-6">
+      <img id="logo" src="https://imgg.io/images/2024/06/24/55c5302600af73485e020a54a81f91c4.png" alt="Logo" loading="lazy" style="width: 300px; height: 350px;">
+    </div>
+    <div class="bg-white p-6 rounded shadow-md w-full max-w-lg mx-auto">
+      <h1 class="text-2xl font-bold mb-4 text-primary text-center">نظام الحضور والانصراف للبرامج التأهيلية</h1>
+      <div class="space-y-4">
+        <label class="block text-gray-700">يرجى تحديد نوع المستخدم:</label>
+        <select id="userType" class="w-full p-2 border border-secondary rounded">
+          <option value="user">باحث عن عمل</option>
+          <option value="admin">مشرف برنامج</option>
+        </select>
+      </div>
+      <div class="space-y-4">
+        <button type="button" id="loginBtn" class="w-full bg-primary text-white p-2 rounded">تسجيل الدخول</button>
+        <button type="button" id="logoutBtn" class="w-full bg-secondary text-white p-2 rounded">تسجيل الخروج</button>
+      </div>
+      <form id="loginForm" class="space-y-4 hidden">
+        <div>
+          <label class="block text-gray-700">البريد الإلكتروني:</label>
+          <input type="email" id="email" class="w-full p-2 border border-secondary rounded" required>
+        </div>
+        <div>
+          <label class="block text-gray-700">كلمة المرور:</label>
+          <input type="password" id="password" class="w-full p-2 border border-secondary rounded" required>
+        </div>
+        <button type="submit" class="w-full bg-primary text-white p-2 rounded">تـم</button>
+      </form>
+      <div id="overlay" class="text-white text-center p-4 rounded">تم تسجيل الدخول بنجاح</div>
+      <div id="errorOverlay" class="text-white text-center p-4 rounded">خطأ في تسجيل الدخول. الرجاء التحقق من البيانات.</div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    const loginBtn = document.getElementById('loginBtn');
+    const logoutBtn = document.getElementById('logoutBtn');
+    const userTypeSelect = document.getElementById('userType');
+    const loginForm = document.getElementById('loginForm');
+    const overlay = document.getElementById('overlay');
+    const errorOverlay = document.getElementById('errorOverlay');
+
+    loginBtn.addEventListener('click', function() {
+      loginForm.classList.remove('hidden');
+    });
+
+    logoutBtn.addEventListener('click', function() {
+      google.script.run.withSuccessHandler(function(result) {
+        if (result === 'success') {
+          window.location.reload();
+        }
+      }).logout();
+    });
+
+    loginForm.addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      const userType = userTypeSelect.value;
+
+      google.script.run
+        .withSuccessHandler(function(result) {
+          if (result === 'success') {
+            toggleOverlay('overlay', true);
+            setTimeout(function() {
+              toggleOverlay('overlay', false);
+              loginForm.reset();
+              if (userType === 'admin') {
+                window.location.href = 'admin.html';
+              } else if (userType === 'user') {
+                window.location.href = 'user.html';
+              }
+            }, 2500);
+          } else {
+            toggleOverlay('errorOverlay', true);
+            setTimeout(function() {
+              toggleOverlay('errorOverlay', false);
+            }, 2500);
+          }
+        })
+        .login(email, password, userType);
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>واجهة الباحث - نظام الحضور والانصراف</title>
+ <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.3/dist/tailwind.min.css" rel="stylesheet">
+ <link rel="stylesheet" href="styles.css"> 
+</head>
+<body class="bg-gray-100 flex justify-center items-center h-screen">
+ <div class="container mx-auto">
+     <div class="bg-white p-6 rounded shadow-md w-full max-w-lg mx-auto">
+         <h1 class="text-2xl font-bold mb-4 text-primary text-center">واجهة الباحث</h1>
+         <div id="buttonContainer" class="space-y-4">
+             <button type="button" id="attendanceBtn" class="w-full bg-primary text-white p-2 rounded">تسجيل الحضور</button>
+             <button type="button" id="departureBtn" class="w-full bg-secondary text-white p-2 rounded">تسجيل الانصراف</button>
+         </div>
+
+         <!-- نموذج تسجيل الحضور -->
+         <div id="attendanceForm" class="space-y-4 hidden">
+             <h2 class="text-xl font-bold mb-2 text-primary text-center">تسجيل الحضور</h2>
+             <div>
+                 <label class="block text-gray-700">الاسم</label>
+                 <input type="text" id="name" class="w-full p-2 border border-secondary rounded" placeholder="يرجى كتابة الاسم باللغة العربية" required>
+                 <span id="nameError" class="text-red-500 hidden">الرجاء التحقق من صحة الاسم.</span>
+             </div>
+             <div>
+                 <label class="block text-gray-700">رقم الهاتف</label>
+                 <input type="text" id="phone" pattern="9715\d{8}" class="w-full p-2 border border-secondary rounded" placeholder="9715xxxxxxxx" required>
+                 <span id="phoneError" class="text-red-500 hidden">رقم الهاتف غير صحيح.</span>
+             </div>
+             <div>
+                 <label class="block text-gray-700">البريد الالكتروني</label>
+                 <input type="email" id="email" class="w-full p-2 border border-secondary rounded" required>
+                 <span id="emailError" class="text-red-500 hidden">البريد الإلكتروني غير صحيح.</span>
+             </div>
+             <div>
+                 <label class="block text-gray-700">المؤهل العلمي</label>
+                 <select id="degree" class="w-full p-2 border border-secondary rounded" required>
+                     <option value="">يرجى تحديد المؤهل العلمي</option>
+                     <option value="الماجستير">الماجستير</option>
+                     <option value="البكالوريوس">البكالوريوس</option>
+                     <option value="الدبلوم العالي">الدبلوم العالي</option>
+                     <option value="الدبلوم">الدبلوم </option>
+                     <option value="شهادة الانجاز">شهادة الانجاز</option>
+                     <option value="الشهادة الثانوية">الشهادة الثانوية</option>
+                     <option value="اقل من الشهادة الثانوية">اقل من الشهادة الثانوية</option>
+                 </select>
+             </div>
+             <div id="programContainer" class="hidden">
+                 <label class="block text-gray-700">مشترك في برنامج:</label>
+                 <select id="program" class="w-full p-2 border border-secondary rounded" required>
+                     <!-- Programs will be dynamically added here -->
+                 </select>
+             </div>
+             <button type="submit" id="attendanceSubmit" class="w-full bg-primary text-white p-2 rounded">تـم</button>
+         </div>
+
+         <!-- نموذج تسجيل الانصراف -->
+         <div id="departureForm" class="space-y-4 hidden">
+             <h2 class="text-xl font-bold mb-2 text-primary text-center">تسجيل الانصراف</h2>
+             <div>
+                 <label class="block text-gray-700">الاسم</label>
+                 <input type="text" id="nameDeparture" class="w-full p-2 border border-secondary rounded" placeholder="يرجى كتابة الاسم باللغة العربية" required>
+                 <span id="nameErrorDeparture" class="text-red-500 hidden">الرجاء التحقق من صحة الاسم.</span>
+             </div>
+             <div>
+                 <label class="block text-gray-700">رقم الهاتف</label>
+                 <input type="text" id="phoneDeparture" pattern="9715\d{8}" class="w-full p-2 border border-secondary rounded" placeholder="9715xxxxxxxx" required>
+                 <span id="phoneErrorDeparture" class="text-red-500 hidden">رقم الهاتف غير صحيح.</span>
+             </div>
+             <div>
+                 <label class="block text-gray-700">البريد الالكتروني</label>
+                 <input type="email" id="emailDeparture" class="w-full p-2 border border-secondary rounded" required>
+                 <span id="emailErrorDeparture" class="text-red-500 hidden">البريد الإلكتروني غير صحيح.</span>
+             </div>
+             <div>
+                 <label class="block text-gray-700">المؤهل العلمي</label>
+                 <select id="degreeDeparture" class="w-full p-2 border border-secondary rounded" required>
+                     <option value="">يرجى تحديد المؤهل العلمي</option>
+                     <option value="الماجستير">الماجستير</option>
+                     <option value="البكالوريوس">البكالوريوس</option>
+                     <option value="الدبلوم العالي">الدبلوم العالي</option>
+                     <option value="الدبلوم">الدبلوم </option>
+                     <option value="شهادة الانجاز">شهادة الانجاز</option>
+                     <option value="الشهادة الثانوية">الشهادة الثانوية</option>
+                     <option value="اقل من الشهادة الثانوية">اقل من الشهادة الثانوية</option>
+                 </select>
+             </div>
+             <div id="programContainerDeparture" class="hidden">
+                 <label class="block text-gray-700">مشترك في برنامج:</label>
+                 <select id="programDeparture" class="w-full p-2 border border-secondary rounded" required>
+                     <!-- Programs will be dynamically added here -->
+                 </select>
+             </div>
+             <button type="submit" id="departureSubmit" class="w-full bg-primary text-white p-2 rounded">تـم</button>
+         </div>
+
+         <div id="overlay" class="text-white text-center p-4 rounded">شكرا لك! تم تسجيل حضورك لهذا اليوم بنجاح</div>
+         <div id="departureOverlay" class="text-white text-center p-4 rounded">شكرا لك! تم تسجيل انصرافك لهذا اليوم بنجاح</div>
+     </div>
+ </div>
+
+ <script src="script.js"></script> 
+ <script>
+     const attendanceBtn = document.getElementById('attendanceBtn');
+     const departureBtn = document.getElementById('departureBtn');
+     const buttonContainer = document.getElementById('buttonContainer');
+     const attendanceForm = document.getElementById('attendanceForm');
+     const departureForm = document.getElementById('departureForm');
+     const overlay = document.getElementById('overlay');
+     const departureOverlay = document.getElementById('departureOverlay');
+     const nameInput = document.getElementById('name');
+     const phoneInput = document.getElementById('phone');
+     const emailInput = document.getElementById('email');
+     const nameError = document.getElementById('nameError');
+     const phoneError = document.getElementById('phoneError');
+     const emailError = document.getElementById('emailError');
+     const nameInputDeparture = document.getElementById('nameDeparture');
+     const phoneInputDeparture = document.getElementById('phoneDeparture');
+     const emailInputDeparture = document.getElementById('emailDeparture');
+     const nameErrorDeparture = document.getElementById('nameErrorDeparture');
+     const phoneErrorDeparture = document.getElementById('phoneErrorDeparture');
+     const emailErrorDeparture = document.getElementById('emailErrorDeparture');
+
+     attendanceBtn.addEventListener('click', function() {
+         attendanceForm.classList.remove('hidden');
+         buttonContainer.classList.add('hidden');
+         document.getElementById('logo').style.display = 'none';
+     });
+
+     departureBtn.addEventListener('click', function() {
+         departureForm.classList.remove('hidden');
+         buttonContainer.classList.add('hidden');
+         document.getElementById('logo').style.display = 'none';
+     });
+
+     const programs = {
+         "الماجستير": ["برنامج 1", "برنامج 2", "برنامج 3"],
+         "البكالوريوس": ["برنامج 4", "برنامج 5", "برنامج 6"],
+         "الدبلوم العالي": ["برنامج 7", "برنامج 8", "برنامج 9"],
+         "الدبلوم": ["برنامج 10", "برنامج 11", "برنامج 12"],
+         "شهادة الانجاز": ["برنامج 13", "برنامج 14", "برنامج 15"],
+         "الشهادة الثانوية": ["برنامج 16", "برنامج 17", "برنامج 18"],
+         "اقل من الشهادة الثانوية": ["برنامج 19", "برنامج 20", "برنامج 21"]
+     };
+
+     const degreeSelect = document.getElementById('degree');
+     const programContainer = document.getElementById('programContainer');
+     const programSelect = document.getElementById('program');
+
+     degreeSelect.addEventListener('change', function() {
+         const selectedDegree = degreeSelect.value;
+         if (selectedDegree) {
+             programSelect.innerHTML = programs[selectedDegree].map(program => `<option value="${program}">${program}</option>`).join('');
+             programContainer.classList.remove('hidden');
+         } else {
+             programContainer.classList.add('hidden');
+         }
+     });
+
+     const degreeSelectDeparture = document.getElementById('degreeDeparture');
+     const programContainerDeparture = document.getElementById('programContainerDeparture');
+     const programSelectDeparture = document.getElementById('programDeparture');
+
+     degreeSelectDeparture.addEventListener('change', function() {
+         const selectedDegree = degreeSelectDeparture.value;
+         if (selectedDegree) {
+             programSelectDeparture.innerHTML = programs[selectedDegree].map(program => `<option value="${program}">${program}</option>`).join('');
+             programContainerDeparture.classList.remove('hidden');
+         } else {
+             programContainerDeparture.classList.add('hidden');
+         }
+     });
+
+     nameInput.addEventListener('blur', function() {
+         const name = nameInput.value;
+         if (name) {
+             google.script.run.withSuccessHandler(function(result) {
+                 if (result === 'error') {
+                     nameError.classList.remove('hidden');
+                     nameError.textContent = 'الرجاء التحقق من صحة الاسم.';
+                 } else {
+                     nameError.classList.add('hidden');
+                 }
+             }).analyzeStudentData(name);
+         }
+     });
+
+     phoneInput.addEventListener('blur', function() {
+         const phoneNumber = phoneInput.value;
+         if (phoneNumber) {
+             google.script.run.withSuccessHandler(function(result) {
+                 if (result === 'error') {
+                     phoneError.classList.remove('hidden');
+                     phoneError.textContent = 'رقم الهاتف غير صحيح.';
+                 } else {
+                     phoneError.classList.add('hidden');
+                 }
+             }).analyzeStudentData(phoneNumber);
+         }
+     });
+
+     emailInput.addEventListener('blur', function() {
+         const email = emailInput.value;
+         if (email) {
+             if (!validateEmail(email)) {
+                 emailError.classList.remove('hidden');
+                 emailError.textContent = 'البريد الإلكتروني غير صحيح.';
+             } else {
+                 emailError.classList.add('hidden');
+             }
+         }
+     });
+
+     nameInputDeparture.addEventListener('blur', function() {
+         const name = nameInputDeparture.value;
+         if (name) {
+             google.script.run.withSuccessHandler(function(result) {
+                 if (result === 'error') {
+                     nameErrorDeparture.classList.remove('hidden');
+                     nameErrorDeparture.textContent = 'الرجاء التحقق من صحة الاسم.';
+                 } else {
+                     nameErrorDeparture.classList.add('hidden');
+                 }
+             }).analyzeStudentData(name);
+         }
+     });
+
+     phoneInputDeparture.addEventListener('blur', function() {
+         const phoneNumber = phoneInputDeparture.value;
+         if (phoneNumber) {
+             google.script.run.withSuccessHandler(function(result) {
+                 if (result === 'error') {
+                     phoneErrorDeparture.classList.remove('hidden');
+                     phoneErrorDeparture.textContent = 'رقم الهاتف غير صحيح.';
+                 } else {
+                     phoneErrorDeparture.classList.add('hidden');
+                 }
+             }).analyzeStudentData(phoneNumber);
+         }
+     });
+
+     emailInputDeparture.addEventListener('blur', function() {
+         const email = emailInputDeparture.value;
+         if (email) {
+             if (!validateEmail(email)) {
+                 emailErrorDeparture.classList.remove('hidden');
+                 emailErrorDeparture.textContent = 'البريد الإلكتروني غير صحيح.';
+             } else {
+                 emailErrorDeparture.classList.add('hidden');
+             }
+         }
+     });
+
+     attendanceForm.addEventListener('submit', function(event) {
+         event.preventDefault();
+
+         const formData = {
+             studentName: nameInput.value,
+             phoneNumber: phoneInput.value,
+             email: emailInput.value,
+             qualification: document.getElementById('degree').value,
+             program: document.getElementById('program').value,
+             recordType: 'حضور',
+             timestamp: new Date().toISOString()
+         };
+
+         google.script.run.withSuccessHandler(function(result) {
+             if (result === 'success') {
+                 toggleOverlay('overlay', true); 
+                 setTimeout(function() {
+                     toggleOverlay('overlay', false); 
+                     attendanceForm.reset();
+                     programContainer.classList.add('hidden');
+                     buttonContainer.classList.remove('hidden');
+                     document.getElementById('logo').style.display = 'block';
+                     nameError.classList.add('hidden');
+                     phoneError.classList.add('hidden');
+                     emailError.classList.add('hidden');
+                     attendanceForm.classList.add('hidden');
+                 }, 2500);
+             } else {
+                 alert('لم تتم عملية التسجيل! يرجى محاولة التسجيل مرة اخرى');
+             }
+         }).submitForm(formData);
+     });
+
+     departureForm.addEventListener('submit', function(event) {
+         event.preventDefault();
+
+         const formData = {
+             studentName: nameInputDeparture.value,
+             phoneNumber: phoneInputDeparture.value,
+             email: emailInputDeparture.value,
+             qualification: document.getElementById('degreeDeparture').value,
+             program: document.getElementById('programDeparture').value,
+             recordType: 'انصراف',
+             timestamp: new Date().toISOString()
+         };
+
+         google.script.run.withSuccessHandler(function(result) {
+             if (result === 'success') {
+                 toggleOverlay('departureOverlay', true); 
+                 setTimeout(function() {
+                     toggleOverlay('departureOverlay', false); 
+                     departureForm.reset();
+                     programContainerDeparture.classList.add('hidden');
+                     buttonContainer.classList.remove('hidden');
+                     document.getElementById('logo').style.display = 'block';
+                     nameErrorDeparture.classList.add('hidden');
+                     phoneErrorDeparture.classList.add('hidden');
+                     emailErrorDeparture.classList.add('hidden');
+                     departureForm.classList.add('hidden');
+                 }, 2500);
+             } else {
+                 alert('لم تتم عملية التسجيل! يرجى محاولة التسجيل مرة اخرى');
+             }
+         }).submitForm(formData);
+     });
+
+
+     //  دالة   لـ   عرض   التقارير
+     function showReports() {
+       google.script.run.withSuccessHandler(displayReports).getReports();
+     }
+
+     // إضافة زر لعرض التقارير
+     var reportBtn = document.getElementById('reportBtn');
+     reportBtn.addEventListener('click', showReports);
+
+     // إضافة زر لإنشاء تقرير لبرنامج محدد
+     var generateReportBtn = document.getElementById('generateReportBtn');
+     generateReportBtn.addEventListener('click', function() {
+         var programName = prompt('يرجى إدخال اسم البرنامج', '');
+         if (programName) {
+             google.script.run.withSuccessHandler(displayReports).generateReport(programName);
+         }
+     });
+ </script>
+</body>
+</html>

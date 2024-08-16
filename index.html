@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>واجهة المشرف - نظام الحضور والانصراف</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.3/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-gray-100 flex justify-center items-center h-screen">
+    <div class="container mx-auto">
+        <div class="bg-white p-6 rounded shadow-md w-full max-w-lg mx-auto">
+            <h1 class="text-2xl font-bold mb-4 text-primary text-center">واجهة المشرف</h1>
+            <div class="space-y-4">
+                <button type="button" id="generateReportBtn" class="w-full bg-primary text-white p-2 rounded">إنشاء تقرير</button>
+                <button type="button" id="manageProgramsBtn" class="w-full bg-secondary text-white p-2 rounded">إدارة البرامج</button>
+                <button type="button" id="viewUsersBtn" class="w-full bg-tertiary text-white p-2 rounded">عرض بيانات المستخدمين</button>
+            </div>
+
+            <div id="reportContainer" class="hidden">
+                <h2 class="text-xl font-bold mb-2 text-primary text-center">تقارير الحضور والانصراف</h2>
+                <div id="reportContent">
+                    <!-- محتوى التقارير سيتم عرضة هنا -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script> 
+    <script>
+        const generateReportBtn = document.getElementById('generateReportBtn');
+        const manageProgramsBtn = document.getElementById('manageProgramsBtn');
+        const viewUsersBtn = document.getElementById('viewUsersBtn');
+        const reportContainer = document.getElementById('reportContainer');
+        const reportContent = document.getElementById('reportContent');
+
+        generateReportBtn.addEventListener('click', function() {
+            //  قم   بإضافة   الكود   لـ   إنشاء   التقارير   هنا.
+            var programName = prompt('يرجى إدخال اسم البرنامج', '');
+            if (programName) {
+                google.script.run.withSuccessHandler(displayReports).generateReport(programName);
+            }
+        });
+
+        manageProgramsBtn.addEventListener('click', function() {
+            //  قم   بإضافة   الكود   لـ   إدارة   البرامج   هنا.
+        });
+
+        viewUsersBtn.addEventListener('click', function() {
+            //  قم   بإضافة   الكود   لـ   عرض   بيانات   المستخدمين   هنا.
+        });
+
+        //  دالة   لـ   عرض   التقارير
+        function showReports() {
+          google.script.run.withSuccessHandler(displayReports).getReports();
+        }
+
+        // إضافة زر لعرض التقارير
+        var reportBtn = document.createElement('button');
+        reportBtn.type = 'button';
+        reportBtn.id = 'reportBtn';
+        reportBtn.className = 'w-full bg-tertiary text-white p-2 rounded';
+        reportBtn.textContent = 'عرض التقارير';
+        reportBtn.addEventListener('click', showReports);
+
+        // إضافة الزر لعرض التقارير بعد زر تسجيل الانصراف
+        document.getElementById('buttonContainer').appendChild(reportBtn); 
+
+        // إضافة زر لإنشاء تقرير لبرنامج محدد
+        var generateReportBtn = document.createElement('button');
+        generateReportBtn.type = 'button';
+        generateReportBtn.id = 'generateReportBtn';
+        generateReportBtn.className = 'w-full bg-tertiary text-white p-2 rounded';
+        generateReportBtn.textContent = 'إنشاء تقرير للبرنامج';
+        generateReportBtn.addEventListener('click', function() {
+          var programName = prompt('يرجى إدخال اسم البرنامج', '');
+          if (programName) {
+            google.script.run.withSuccessHandler(displayReports).generateReport(programName);
+          }
+        });
+        document.getElementById('buttonContainer').appendChild(generateReportBtn); 
+    </script>
+</body>
+</html>

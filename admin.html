@@ -1,0 +1,24 @@
+// دالة لإدارة overlays (إظهار وإخفاء)
+function toggleOverlay(overlayId, show) {
+  const overlay = document.getElementById(overlayId);
+  if (show) {
+    overlay.classList.add('show');
+  } else {
+    overlay.classList.remove('show');
+  }
+}
+
+// دالة للتحقق من صحة البريد الإلكتروني
+function validateEmail(email) {
+  const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return re.test(email);
+}
+
+// دالة لعرض التقارير - لن تُستخدم هنا 
+// function displayReports(reportsData) { ... }
+
+// دالة للحصول على بيانات التقارير من Google Apps Script - لن تُستخدم هنا
+// function getReports() { ... }
+
+// دالة لإنشاء تقرير لبرنامج مُحدد - لن تُستخدم هنا
+// function generateReport(programName) { ... }
