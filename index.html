@@ -3,53 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>نظام الحضور والانصراف</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.3/dist/tailwind.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+    <title>نموذج تسجيل الحضور والانصراف</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.2.0/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body class="bg-gray-100 flex justify-center items-center h-screen">
-    <div class="container mx-auto">
-        <div class="bg-white p-6 rounded shadow-md w-full max-w-lg mx-auto">
-            <h1 class="text-2xl font-bold mb-4 text-primary text-center">نظام الحضور والانصراف</h1>
-            <div id="buttonContainer" class="space-y-4">
-                <!-- سيتم إدراج الأزرار هنا -->
-            </div>
+<body class="bg-gray-100">
+    <div class="container mx-auto py-10">
+        <div id="form-container" class="bg-white p-6 rounded-lg shadow-lg">
+            <h2 id="form-title" class="text-2xl font-bold mb-4">تسجيل الحضور</h2>
+            <form id="attendance-form">
+                <div id="error-message" class="bg-red-200 text-red-800 p-2 rounded hidden mb-4"></div>
+                <div class="mb-4">
+                    <label for="name" class="block text-gray-700">الاسم:</label>
+                    <input type="text" id="name" class="w-full p-2 border border-gray-300 rounded mt-1" required>
+                </div>
+                <div class="mb-4">
+                    <label for="phone" class="block text-gray-700">رقم الهاتف:</label>
+                    <input type="tel" id="phone" class="w-full p-2 border border-gray-300 rounded mt-1" required>
+                </div>
+                <div class="mb-4">
+                    <label for="email" class="block text-gray-700">البريد الإلكتروني:</label>
+                    <input type="email" id="email" class="w-full p-2 border border-gray-300 rounded mt-1" required>
+                </div>
+                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">إرسال</button>
+            </form>
         </div>
+        <div id="success-message" class="bg-green-200 text-green-800 p-4 rounded hidden mt-6"></div>
     </div>
 
-    <script src="script.js"></script> 
-    <script>
-        // دالة لعرض التقارير
-        function showReports() {
-            google.script.run.withSuccessHandler(displayReports).getReports();
-        }
-
-        // إضافة زر لعرض التقارير
-        var reportBtn = document.createElement('button');
-        reportBtn.type = 'button';
-        reportBtn.id = 'reportBtn';
-        reportBtn.className = 'w-full bg-tertiary text-white p-2 rounded';
-        reportBtn.textContent = 'عرض التقارير';
-        reportBtn.addEventListener('click', showReports);
-
-        // إضافة الزر في الحاوية
-        document.getElementById('buttonContainer').appendChild(reportBtn);
-
-        // إضافة زر لإنشاء تقرير لبرنامج محدد
-        var generateReportBtn = document.createElement('button');
-        generateReportBtn.type = 'button';
-        generateReportBtn.id = 'generateReportBtn';
-        generateReportBtn.className = 'w-full bg-primary text-white p-2 rounded';
-        generateReportBtn.textContent = 'إنشاء تقرير للبرنامج';
-        generateReportBtn.addEventListener('click', function() {
-            var programName = prompt('يرجى إدخال اسم البرنامج', '');
-            if (programName) {
-                google.script.run.withSuccessHandler(displayReports).generateReport(programName);
-            }
-        });
-
-        // إضافة الزر الثاني في الحاوية
-        document.getElementById('buttonContainer').appendChild(generateReportBtn);
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
