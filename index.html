@@ -11,33 +11,15 @@
     <div class="container mx-auto">
         <div class="bg-white p-6 rounded shadow-md w-full max-w-lg mx-auto">
             <h1 class="text-2xl font-bold mb-4 text-primary text-center">نظام الحضور والانصراف</h1>
-            <div class="space-y-4">
-                <button type="button" id="generateReportBtn" class="w-full bg-primary text-white p-2 rounded">إنشاء تقرير</button>
-            </div>
-
-            <div id="reportContainer" class="hidden">
-                <h2 class="text-xl font-bold mb-2 text-primary text-center">تقارير الحضور والانصراف</h2>
-                <div id="reportContent">
-                    <!-- محتوى التقارير سيتم عرضة هنا -->
-                </div>
+            <div id="buttonContainer" class="space-y-4">
+                <!-- سيتم إدراج الأزرار هنا -->
             </div>
         </div>
     </div>
 
     <script src="script.js"></script> 
     <script>
-        const generateReportBtn = document.getElementById('generateReportBtn');
-        const reportContainer = document.getElementById('reportContainer');
-        const reportContent = document.getElementById('reportContent');
-
-        generateReportBtn.addEventListener('click', function() {
-            var programName = prompt('يرجى إدخال اسم البرنامج', '');
-            if (programName) {
-                google.script.run.withSuccessHandler(displayReports).generateReport(programName);
-            }
-        });
-
-        //  دالة   لـ   عرض   التقارير
+        // دالة لعرض التقارير
         function showReports() {
             google.script.run.withSuccessHandler(displayReports).getReports();
         }
@@ -49,13 +31,15 @@
         reportBtn.className = 'w-full bg-tertiary text-white p-2 rounded';
         reportBtn.textContent = 'عرض التقارير';
         reportBtn.addEventListener('click', showReports);
+
+        // إضافة الزر في الحاوية
         document.getElementById('buttonContainer').appendChild(reportBtn);
 
         // إضافة زر لإنشاء تقرير لبرنامج محدد
         var generateReportBtn = document.createElement('button');
         generateReportBtn.type = 'button';
         generateReportBtn.id = 'generateReportBtn';
-        generateReportBtn.className = 'w-full bg-tertiary text-white p-2 rounded';
+        generateReportBtn.className = 'w-full bg-primary text-white p-2 rounded';
         generateReportBtn.textContent = 'إنشاء تقرير للبرنامج';
         generateReportBtn.addEventListener('click', function() {
             var programName = prompt('يرجى إدخال اسم البرنامج', '');
@@ -63,6 +47,8 @@
                 google.script.run.withSuccessHandler(displayReports).generateReport(programName);
             }
         });
+
+        // إضافة الزر الثاني في الحاوية
         document.getElementById('buttonContainer').appendChild(generateReportBtn);
     </script>
 </body>
